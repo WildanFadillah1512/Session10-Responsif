@@ -6,16 +6,12 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-// Import Icon set dari Expo
 import { Feather } from "@expo/vector-icons";
-
-// 1. UPDATE: Menambahkan breakpoint largeTablet
 const BREAKPOINTS = {
   tablet: 768,
   largeTablet: 1024,
 };
 
-// 2. UPDATE: Menambahkan properti 'icon' pada data kartu
 const featureCards = [
   {
     title: "Dashboard",
@@ -41,16 +37,12 @@ const featureCards = [
 
 export default function HomeScreen() {
   const { width, height } = useWindowDimensions();
-
-  // 3. UPDATE: Logika Orientasi & Breakpoints Lanjutan
-  const isLandscape = width > height; // Orientasi
+  const isLandscape = width > height; 
   const isTablet = width >= BREAKPOINTS.tablet;
   const isLargeTablet = width >= BREAKPOINTS.largeTablet;
-
   const isMedium = isTablet && !isLargeTablet && !isLandscape; 
   const isExpansive = isLargeTablet || (isTablet && isLandscape);
 
-  // Scaling Icon Size berdasarkan layout
   const iconSize = isExpansive ? 32 : isMedium ? 28 : 24;
 
   return (
@@ -65,11 +57,9 @@ export default function HomeScreen() {
             : styles.containerMobile,
         ]}
       >
-        {/* HERO SECTION */}
         <View
           style={[
             styles.hero,
-            // Ubah layout hero menjadi row jika landscape/layar lebar
             isExpansive || isLandscape ? styles.heroLandscape : styles.heroPortrait,
           ]}
         >
@@ -84,18 +74,12 @@ export default function HomeScreen() {
             </Text>
           </View>
         </View>
-
-        {/* GRID SECTION */}
         <View style={styles.cardGrid}>
           {featureCards.map((card) => (
             <View
               key={card.title}
               style={[
                 styles.card,
-                // Logika Lebar Kartu:
-                // Expansive = 4 kolom ( ~23% width )
-                // Medium    = 2 kolom ( ~48% width )
-                // Compact   = 1 kolom ( 100% width )
                 isExpansive
                   ? styles.cardQuarter
                   : isMedium
@@ -105,7 +89,6 @@ export default function HomeScreen() {
             >
               <View style={styles.cardHeader}>
                 <View style={styles.iconContainer}>
-                  {/* 4. UPDATE: Render Icon Responsif */}
                   <Feather
                     name={card.icon as any}
                     size={iconSize}
@@ -134,8 +117,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 32,
   },
-  
-  // --- Container Width Constraints ---
   containerMobile: {
     alignItems: "stretch",
   },
@@ -149,8 +130,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "100%",
   },
-
-  // --- Hero Styles ---
   hero: {
     borderRadius: 24,
     padding: 24,
@@ -167,10 +146,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   heroContent: {
-    flex: 1, // Agar teks mengambil ruang tersedia di landscape
+    flex: 1, 
   },
-  
-  // --- Typography ---
   overline: {
     color: "#8AB4FF",
     letterSpacing: 1,
@@ -189,37 +166,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 8,
   },
-
-  // --- Grid System ---
   cardGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 16, // Menggunakan properti gap modern
+    gap: 16,
   },
 
-  // --- Card Styles ---
   card: {
     borderRadius: 20,
     padding: 20,
     backgroundColor: "#162544",
     justifyContent: "flex-start",
   },
-  // Responsive Widths
   cardFull: {
     width: "100%",
   },
   cardHalf: {
-    // 48% agar muat 2 kolom dengan adanya gap
     width: "47%", 
     flexGrow: 1,
   },
   cardQuarter: {
-    // 23% agar muat 4 kolom dengan adanya gap
     width: "23%", 
     flexGrow: 1,
   },
-
-  // --- Card Internal ---
   cardHeader: {
     flexDirection: "row",
     alignItems: "center",
